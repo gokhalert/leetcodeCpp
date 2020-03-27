@@ -8,10 +8,6 @@ class Solution {
     vector<string> getMatchingCandidates(string match, vector<string>& words) {
         vector<string> res;
         for(auto w : words) {
-            // auto pos = w.find(match);
-            // // cout << match << " " << w << " " << pos << "\n";
-            // if(pos == string::npos) continue;
-            // if(w.length() - pos != match.length()) continue;
             if(!endsWith(w, match)) continue;
             res.push_back(w);
         }
@@ -40,19 +36,14 @@ public:
             for(int i = m - 1; i >= 0; i--) match += chosen[i][wordLen - m - 1];
             candidates = getMatchingCandidates(match, words);
             if(candidates.empty()) {
-                // cout << "No matching candidates for Match " << match << "\n";
                 return;
             }
         }
         
         for(auto c : candidates) {
-            // chosen.insert(chosen.begin(), c);    // choose
-            chosen.push_back(c);
-            // cout << "Choosing " << c << "\n";
-            helper(chosen, words, level + 1);
-            // chosen.erase(chosen.begin());      // Unchoose / backtrack
-            // chosen.pop_front();
-            chosen.pop_back();
+            chosen.push_back(c);                // choose
+            helper(chosen, words, level + 1);   // Explore
+            chosen.pop_back();                  // Unchoose
         }
     }
     
